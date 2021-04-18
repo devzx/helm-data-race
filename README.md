@@ -1,7 +1,9 @@
 # helm-data-race
 
 
-Example code to reproduce the data race.
+Example code to reproduce the data race as well as code which includes the fix.
+
+I've modified the relevant files in the fix/vendor folder which contain the changes made in the corresponding PR.
 
 `helm` is required to be installed as a prerequisite.
 
@@ -13,8 +15,9 @@ $ helm repo add prometheus-community https://prometheus-community.github.io/helm
 $ helm repo update
 ```
 
-## Run
+## To produce the data race
 ```sh
+$ cd race
 $ GORACE=history_size=7 go run -race main.go
 ```
 
@@ -49,4 +52,19 @@ release generated successfully
 release generated successfully
 Found 1 data race(s)
 exit status 66
+```
+
+## Demonstrate the fix
+```sh
+$ cd fix
+$ GORACE=history_size=7 go run -race main.go
+```
+
+Your output should be similiar to:
+```
+release generated successfully
+release generated successfully
+release generated successfully
+release generated successfully
+release generated successfully
 ```
